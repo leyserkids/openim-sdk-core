@@ -25,6 +25,7 @@ type MessageReceipt struct {
 	GroupID     string   `json:"groupID"`
 	UserID      string   `json:"userID"`
 	MsgIDList   []string `json:"msgIDList"`
+	HasReadSeq  int64    `json:"hasReadSeq"`
 	ReadTime    int64    `json:"readTime"`
 	MsgFrom     int32    `json:"msgFrom"`
 	ContentType int32    `json:"contentType"`

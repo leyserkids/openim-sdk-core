@@ -315,7 +315,7 @@ func (c *Conversation) doReadDrawing(ctx context.Context, msg *sdkws.MsgData) er
 				}
 			}
 			var groupReceiptResp = []*sdk_struct.MessageReceipt{{GroupID: conversation.GroupID, UserID: tips.MarkAsReadUserID, MsgIDList: nil,
-				SessionType: conversation.ConversationType, ReadTime: msg.SendTime}}
+				HasReadSeq: tips.HasReadSeq, SessionType: conversation.ConversationType, ReadTime: msg.SendTime}}
 			c.msgListener().OnRecvGroupReadReceipt(utils.StructToJsonString(groupReceiptResp))
 		}
 
