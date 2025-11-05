@@ -38,6 +38,8 @@ type IndexDB struct {
 	*indexdb.LocalSendingMessages
 	*indexdb.LocalVersionSync
 	*indexdb.LocalAppSDKVersion
+	*indexdb.LocalGroupReadCursor
+	*indexdb.LocalGroupReadCursorState
 	*indexdb.LocalTableMaster
 	loginUserID string
 }
@@ -67,6 +69,8 @@ func NewDataBase(ctx context.Context, loginUserID string, dbDir string, logLevel
 		LocalSendingMessages:            indexdb.NewLocalSendingMessages(),
 		LocalVersionSync:                indexdb.NewLocalVersionSync(),
 		LocalAppSDKVersion:              indexdb.NewLocalAppSDKVersion(),
+		LocalGroupReadCursor:            indexdb.NewLocalGroupReadCursor(),
+		LocalGroupReadCursorState:       indexdb.NewLocalGroupReadCursorState(),
 		LocalTableMaster:                indexdb.NewLocalTableMaster(),
 		loginUserID:                     loginUserID,
 	}
