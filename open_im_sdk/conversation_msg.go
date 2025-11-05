@@ -157,7 +157,7 @@ func RevokeMessage(callback open_im_sdk_callback.Base, operationID string, conve
 	call(callback, operationID, IMUserContext.Conversation().RevokeMessage, conversationID, clientMsgID)
 }
 
-func ProjectGroupReadInfo(callback open_im_sdk_callback.Base, operationID string, conversationID string, clientMsgIDs []string) {
+func ProjectGroupReadInfo(callback open_im_sdk_callback.Base, operationID string, conversationID string, clientMsgIDs string) {
 	call(callback, operationID, IMUserContext.Conversation().ProjectGroupReadInfo, conversationID, clientMsgIDs)
 }
 

@@ -240,17 +240,17 @@ func (c *Conversation) doReadDrawing(ctx context.Context, msg *sdkws.MsgData) er
 
 	}
 	if tips.MarkAsReadUserID != c.loginUserID {
-		if len(tips.Seqs) == 0 {
-			return errs.New("tips Seqs is empty").Wrap()
-		}
-		messages, err := c.db.GetMessagesBySeqs(ctx, tips.ConversationID, tips.Seqs)
-		if err != nil {
-			log.ZWarn(ctx, "GetMessagesBySeqs err", err, "conversationID", tips.ConversationID, "seqs", tips.Seqs)
-			return err
-
-		}
 		switch conversation.ConversationType {
 		case constant.SingleChatType:
+			if len(tips.Seqs) == 0 {
+				return errs.New("tips Seqs is empty").Wrap()
+			}
+			messages, err := c.db.GetMessagesBySeqs(ctx, tips.ConversationID, tips.Seqs)
+			if err != nil {
+				log.ZWarn(ctx, "GetMessagesBySeqs err", err, "conversationID", tips.ConversationID, "seqs", tips.Seqs)
+				return err
+
+			}
 			latestMsg := &sdk_struct.MsgStruct{}
 			if err := json.Unmarshal([]byte(conversation.LatestMsg), latestMsg); err != nil {
 				log.ZWarn(ctx, "Unmarshal err", err, "conversationID", tips.ConversationID, "latestMsg", conversation.LatestMsg)

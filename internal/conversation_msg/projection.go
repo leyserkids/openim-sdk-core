@@ -70,22 +70,19 @@ func (c *Conversation) projectGroupReadInfo(ctx context.Context, conversationID 
 			continue
 		}
 
-		idx := sort.Search(len(sortedMaxSeqs), func(i int) bool { return sortedMaxSeqs[i] >= m.Seq })
-		hasReadCount := len(sortedMaxSeqs) - idx
+		// Calculate read count excluding the sender
+		list := make([]string, 0, memberCount)
+		for _, p := range userSeqPairs {
+			if p.seq >= m.Seq && p.uid != m.SendID {
+				list = append(list, p.uid)
+			}
+		}
+		hasReadCount := len(list)
 
 		attach.GroupHasReadInfo.HasReadCount = int32(hasReadCount)
 		attach.GroupHasReadInfo.GroupMemberCount = int32(memberCount)
 		attach.GroupHasReadInfo.ReadCursorVersion = cursorVersion
-
-		if hasReadCount > 0 {
-			list := make([]string, 0, hasReadCount)
-			for _, p := range userSeqPairs {
-				if p.seq >= m.Seq {
-					list = append(list, p.uid)
-				}
-			}
-			attach.GroupHasReadInfo.HasReadUserIDList = list
-		}
+		attach.GroupHasReadInfo.HasReadUserIDList = list
 
 		m.AttachedInfo = utils.StructToJsonString(attach)
 		if err := c.db.UpdateMessage(ctx, conversationID, m); err != nil {
